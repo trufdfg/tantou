@@ -1,0 +1,10 @@
+__pycache__/
+*.py[cod]
+*$py.class
+
+.idea/
+.pytest_cache/
+.mypy_cache/
+
+outputs/live_rs485/
+outputs/live_rs485_gui/

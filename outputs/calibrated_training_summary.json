@@ -1,0 +1,37 @@
+{
+  "calibration_root": "D:\\admin\\Documents\\AI\\codex\\tantou\\shuju\\实机标定数据",
+  "output_dir": "D:\\admin\\Documents\\AI\\codex\\tantou\\outputs",
+  "calibration_files": 6,
+  "calibration_blocks": 173,
+  "label_counts": {
+    "无油": 126,
+    "有油": 47
+  },
+  "selected_model_name": "extra_trees",
+  "selected_threshold": 0.6250000000000001,
+  "selected_cv": {
+    "model": "extra_trees",
+    "feature_count": 173,
+    "folds": 6,
+    "threshold": 0.6250000000000001,
+    "auc": 0.3265788584937521,
+    "accuracy": 0.7630057803468208,
+    "balanced_accuracy": 0.5971800067544748,
+    "false_positive_rate": 0.03968253968222474,
+    "no_oil_specificity": 0.9603174603098388,
+    "oil_recall": 0.23404255318650974,
+    "true_no_oil_pred_no_oil": 121,
+    "true_no_oil_pred_oil": 5,
+    "true_oil_pred_no_oil": 36,
+    "true_oil_pred_oil": 11
+  },
+  "model_path": "D:\\admin\\Documents\\AI\\codex\\tantou\\outputs\\oil_classifier_model_calibrated.joblib",
+  "activated_model_path": null,
+  "backup_model_path": null,
+  "notes": [
+    "Only shuju/实机标定数据 is used for this calibration training run.",
+    "Original 测试数据 files are not used.",
+    "Validation is grouped by calibration DAT file so blocks from the same acquisition stay in one fold.",
+    "Threshold selection constrains no-oil false positives before choosing the final active model."
+  ]
+}
