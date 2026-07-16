@@ -6,12 +6,16 @@ on:
       - main
     paths:
       - .github/workflows/build-proposal-temp.yml
+  pull_request:
+    branches:
+      - main
 
 permissions:
   contents: write
 
 jobs:
   build:
+    if: github.actor != 'github-actions[bot]'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout artifact branch
@@ -19,7 +23,7 @@ jobs:
         with:
           ref: chatgpt-proposal-artifact
 
-      - name: Install fonts and Python
+      - name: Install fonts
         run: |
           sudo apt-get update
           sudo apt-get install -y fonts-noto-cjk
