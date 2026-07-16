@@ -43,7 +43,11 @@ jobs:
         run: |
           set +e
           python tools/build_master_proposal.py > build-proposal.log 2>&1
-          echo "exit_code=$?" >> build-proposal.log
+          code=$?
+          echo "exit_code=$code" >> build-proposal.log
+          if [ $code -eq 0 ]; then
+            cp artifacts/*.docx artifacts/master_proposal_with_figures.docx
+          fi
           exit 0
 
       - name: Commit artifact or diagnostics to temporary branch
