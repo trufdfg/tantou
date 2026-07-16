@@ -1,0 +1,53 @@
+name: Build illustrated proposal DOCX
+
+on:
+  push:
+    branches:
+      - chatgpt/proposal-word
+    paths:
+      - 'proposal_build.py'
+      - '.github/workflows/build-proposal.yml'
+  pull_request:
+    branches:
+      - main
+    paths:
+      - 'proposal_build.py'
+      - '.github/workflows/build-proposal.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event_name == 'pull_request' && github.head_ref || github.ref_name }}
+      - name: Install system fonts
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y fonts-noto-cjk
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install dependencies
+        run: pip install python-docx pillow matplotlib
+      - name: Build Word document
+        run: python proposal_build.py
+      - name: Upload Word artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: illustrated-master-proposal
+          path: output/*.docx
+          if-no-files-found: error
+      - name: Commit generated Word document
+        if: github.event_name == 'push'
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add output/*.docx output/images/*.png
+          git commit -m 'Publish generated illustrated proposal' || exit 0
+          git push
