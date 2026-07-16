@@ -36,13 +36,17 @@ jobs:
       - name: Install packages
         run: pip install python-docx pillow
 
-      - name: Build Word document
-        run: python tools/build_master_proposal.py
+      - name: Build Word document and capture diagnostics
+        run: |
+          set +e
+          python tools/build_master_proposal.py > build-proposal.log 2>&1
+          echo "exit_code=$?" >> build-proposal.log
+          exit 0
 
-      - name: Commit artifact to temporary branch
+      - name: Commit artifact or diagnostics to temporary branch
         run: |
           git config user.name github-actions[bot]
           git config user.email 41898282+github-actions[bot]@users.noreply.github.com
-          git add artifacts
-          git commit -m "Build proposal Word artifact" || exit 0
+          git add artifacts build-proposal.log || true
+          git commit -m "Build proposal Word artifact and diagnostics" || exit 0
           git push origin HEAD:chatgpt-proposal-artifact
