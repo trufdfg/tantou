@@ -7,6 +7,12 @@ on:
     paths:
       - 'proposal_build.py'
       - '.github/workflows/build-proposal.yml'
+  pull_request:
+    branches:
+      - main
+    paths:
+      - 'proposal_build.py'
+      - '.github/workflows/build-proposal.yml'
   workflow_dispatch:
 
 permissions:
