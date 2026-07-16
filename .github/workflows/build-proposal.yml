@@ -1,0 +1,45 @@
+name: Build proposal artifact
+
+on:
+  push:
+    branches:
+      - chatgpt-proposal-artifact
+    paths:
+      - tools/build_master_proposal.py
+      - .github/workflows/build-proposal.yml
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install fonts
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y fonts-noto-cjk
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install Python packages
+        run: pip install python-docx pillow
+
+      - name: Build Word document
+        run: python tools/build_master_proposal.py
+
+      - name: Commit generated artifact
+        run: |
+          git config user.name github-actions[bot]
+          git config user.email 41898282+github-actions[bot]@users.noreply.github.com
+          git add artifacts
+          git commit -m "Build proposal Word artifact" || exit 0
+          git push
