@@ -1,6 +1,2 @@
-Traceback (most recent call last):
-  File "/home/runner/work/tantou/tantou/tools/build_master_proposal.py", line 300, in <module>
-    rr=header.add_run('基于亚太赫兹侧壁回波的电缆充油终端分层识别与界面定位研究'); rr.font.size=Pt(9); rr.font.color.rgb=RGBColor(100,100,100); rr._element.rPr.rFonts.set(qn('w:eastAsia'),'宋体')
-                                                                                                                                                ^^^^^^^^^^^^^^^^^^^^^^^^^^
-AttributeError: 'NoneType' object has no attribute 'set'
-exit_code=1
+artifacts/基于亚太赫兹侧壁回波的电缆充油终端分层识别与界面定位_硕士开题报告_插图完整版.docx
+exit_code=0
