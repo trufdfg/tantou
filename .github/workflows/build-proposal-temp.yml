@@ -36,6 +36,9 @@ jobs:
       - name: Install packages
         run: pip install python-docx pillow
 
+      - name: Patch font XML helper
+        run: sed -i 's/\.rFonts\.set(/.get_or_add_rFonts().set(/g' tools/build_master_proposal.py
+
       - name: Build Word document and capture diagnostics
         run: |
           set +e
