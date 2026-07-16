@@ -1,0 +1,34 @@
+name: Package proposal DOCX payload
+
+on:
+  pull_request:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+jobs:
+  package:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout artifact branch
+        uses: actions/checkout@v4
+        with:
+          ref: chatgpt-proposal-artifact
+
+      - name: Expand DOCX package
+        run: |
+          rm -rf docx_payload
+          mkdir -p docx_payload
+          unzip -q artifacts/master_proposal_with_figures.docx -d docx_payload
+          test -f 'docx_payload/[Content_Types].xml'
+          test -f docx_payload/word/document.xml
+
+      - name: Upload DOCX package contents
+        uses: actions/upload-artifact@v4
+        with:
+          name: proposal-docx-payload
+          path: docx_payload/**
+          include-hidden-files: true
+          if-no-files-found: error
